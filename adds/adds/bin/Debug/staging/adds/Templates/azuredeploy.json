@@ -35,7 +35,7 @@
     },
     "artifactsLocation": {
       "type": "string",
-      "defaultValue": "https://raw.githubusercontent.com/shosho-san/ResourceTemplates/master/adds/adds",
+      "defaultValue": "https://raw.githubusercontent.com/shosho-san/ResourceTemplates/master/IaaSDeployforDemo/IaaSDeployforDemo",
       "metadata": {
         "description": "Storage Account/GitHub base uri for required files"
       }

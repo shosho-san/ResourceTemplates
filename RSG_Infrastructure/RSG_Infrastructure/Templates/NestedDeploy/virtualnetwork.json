@@ -10,7 +10,7 @@
     "virtualnetworkSubnet2Name": "Subnet-adfs",
     "virtualnetworkSubnet2Prefix": "10.0.1.0/24",
     "virtualnetworkSubnet3Name": "Subnet-wap",
-    "virtualnetworkSubnet23refix": "10.0.2.0/24"
+    "virtualnetworkSubnet3Prefix": "10.0.2.0/24"
   },
     "resources": [
         {

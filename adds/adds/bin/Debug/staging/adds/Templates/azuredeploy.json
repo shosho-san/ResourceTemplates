@@ -55,9 +55,10 @@
       "Subnet1Name": "Subnet-adds",
       "Subnet1Prefix": "192.168.1.0/24",
       "Subnet2Name": "Subnet-adfs",
-      "Subnet2Prefix": "192.168.1.0/24",
+      "Subnet2Prefix": "192.168.2.0/24",
       "Subnet3Name": "Subnet-wap",
-      "Subnet3Prefix": "192.168.1.0/24"
+      "Subnet3Prefix": "192.168.3.0/24",
+      "adPDCNICIPAddress": "192.168.1.4"
 
 
     },

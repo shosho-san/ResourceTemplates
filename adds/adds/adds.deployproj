@@ -35,8 +35,10 @@
     <Content Include="Scripts\Deploy-AzureResourceGroup.ps1" />
     <Content Include="Templates\azuredeploy.json" />
     <Content Include="Templates\azuredeploy.parameters.json" />
+    <None Include="DSC\DSCvmConfigs.ps1" />
     <None Include="Templates\DemoEnvironment.json" />
     <None Include="Templates\NestedDeploy\DomainController.json" />
+    <None Include="Templates\NestedDeploy\DomainControllerDSC.json" />
     <None Include="Templates\NestedDeploy\NetworkAndStorage.json" />
     <None Include="Templates\NestedDeploy\UpdateVNetDNS.json" />
   </ItemGroup>

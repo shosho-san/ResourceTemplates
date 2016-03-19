@@ -39,8 +39,21 @@
       "dependsOn": [ ],
       "properties": {
         "mode": "Incremental",
-        "templateLink": { 
+        "templateLink": {
           "uri": "[concat(parameters('artifactsLocation'), '/Templates/NestedDeploy/virtualnetwork.json')]",
+          "contentVersion": "1.0.0.0"
+        }
+      }
+    },
+    {
+      "name": "Storage",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [ ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('artifactsLocation'), '/Templates/NestedDeploy/storage.json')]",
           "contentVersion": "1.0.0.0"
         }
       }

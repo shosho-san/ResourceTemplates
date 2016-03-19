@@ -38,6 +38,7 @@
     <None Include="Templates\DemoEnvironment.json" />
     <None Include="Templates\NestedDeploy\DomainController.json" />
     <None Include="Templates\NestedDeploy\NetworkAndStorage.json" />
+    <None Include="Templates\NestedDeploy\UpdateVNetDNS.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Tools\AzCopy.exe" />

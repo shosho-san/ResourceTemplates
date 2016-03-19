@@ -1,0 +1,9 @@
+﻿{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "artifactsLocation": {
+            "value": "C:\\Users\\Guillaume\\Source\\Repos\\ResourceTemplates\\RSG_Infrastructure\\RSG_Infrastructure"
+        }
+    }
+}

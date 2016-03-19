@@ -4,14 +4,12 @@
   "parameters": {
     "envPrefix": {
       "type": "string",
-      "defaultValue": "dom",
       "metadata": {
         "description": "Common prefix for all resource naming"
       }
     },
     "envLocation": {
       "type": "string",
-      "defaultValue": "North Europe",
       "allowedValues": [
         "North Europe",
         "West Europe"
@@ -22,7 +20,6 @@
     },
     "adminUsername": {
       "type": "string",
-      "defaultValue": "demoadmin",
       "metadata": {
         "description": "Admin username for environment"
       }
@@ -157,6 +154,31 @@
           },
           "vmSize": {
             "value": "[variables('vmConfiguration').dc.size]"
+          }
+        }
+      }
+    },
+    {
+      "name": "UpdateVNetDNS",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "NetworkAndStorage",
+        "DomainController",
+        "DomainControllerDSC"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('artifactsLocation'), '/Templates/NestedDeploy/UpdateVNetDNS.json')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "VirtualNetwork": {
+            "value": "[variables('VirtualNetwork')]"
+          },
+          "DNSaddress": {
+            "value": "[reference('DomainController').outputs.ipAddress.value]"
           }
         }
       }

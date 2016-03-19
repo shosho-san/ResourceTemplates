@@ -10,6 +10,9 @@
         },
         "adminPassword": {
             "value": "Jem'apelle"
+        },
+        "envPrefix": {
+            "value": "Lab"
         }
     }
 }

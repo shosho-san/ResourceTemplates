@@ -36,10 +36,7 @@
       "metadata": {
         "description": "Storage Account/GitHub base uri for required files"
       }
-    },
-      "artifactsLocationSasToken": {
-          "type": "securestring"
-      }
+    }
   },
   "variables": {
     "StorageAccount": {

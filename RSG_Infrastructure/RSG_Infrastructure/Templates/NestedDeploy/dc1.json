@@ -15,11 +15,13 @@
     },
     "adds1Name": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "defaultValue": "adds1"
     },
     "adds1AdminUserName": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "defaultValue": "admgdu"
     },
     "adds1AdminPassword": {
       "type": "securestring"

@@ -7,9 +7,9 @@
     "virtualnetworkPrefix": "10.0.0.0/16",
     "virtualnetworkSubnet1Name": "Subnet-adds",
     "virtualnetworkSubnet1Prefix": "10.0.0.0/24",
-    "virtualnetworkSubnet2Name": "Subnet-wap",
+    "virtualnetworkSubnet2Name": "Subnet-adfs",
     "virtualnetworkSubnet2Prefix": "10.0.1.0/24",
-    "virtualnetworkSubnet3Name": "Subnet-adfs",
+    "virtualnetworkSubnet3Name": "Subnet-wap",
     "virtualnetworkSubnet3Prefix": "10.0.2.0/24"
   },
     "resources": [

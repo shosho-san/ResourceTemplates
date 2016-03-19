@@ -128,9 +128,6 @@
           "VirtualNetworkId": {
             "value": "[reference('NetworkAndStorage').outputs.VirtualNetworkId.value]"
           },
-          "adPDCNICIPAddress": {
-            "value": "[reference('NetworkAndStorage').outputs.adPDCNICIPAddress.value]"
-          },
           "StorageAccount": {
             "value": "[variables('StorageAccount')]"
           },
@@ -151,6 +148,9 @@
           },
           "artifactsLocation": {
             "value": "[parameters('artifactsLocation')]"
+          },
+          "adPDCNICIPAddress": {
+            "value": "[variables('VirtualNetwork').adPDCNICIPAddress]"
           },
           "vmName": {
             "value": "[variables('vmConfiguration').dc.name]"

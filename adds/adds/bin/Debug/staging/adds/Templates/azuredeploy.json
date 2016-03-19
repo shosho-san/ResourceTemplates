@@ -128,6 +128,9 @@
           "VirtualNetworkId": {
             "value": "[reference('NetworkAndStorage').outputs.VirtualNetworkId.value]"
           },
+          "adPDCNICIPAddress": {
+            "value": "[reference('NetworkAndStorage').outputs.adPDCNICIPAddress.value]"
+          },
           "StorageAccount": {
             "value": "[variables('StorageAccount')]"
           },

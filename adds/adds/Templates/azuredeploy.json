@@ -1,12 +1,163 @@
 ﻿{
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {
+  "parameters": {
+    "envPrefix": {
+      "type": "string",
+      "defaultValue": "dom",
+      "metadata": {
+        "description": "Common prefix for all resource naming"
+      }
     },
-    "variables": {
+    "envLocation": {
+      "type": "string",
+      "defaultValue": "North Europe",
+      "allowedValues": [
+        "North Europe",
+        "West Europe"
+      ],
+      "metadata": {
+        "description": "Location for all resources"
+      }
     },
-    "resources": [
-    ],
+    "adminUsername": {
+      "type": "string",
+      "defaultValue": "demoadmin",
+      "metadata": {
+        "description": "Admin username for environment"
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Admin password for environment"
+      }
+    },
+    "artifactsLocation": {
+      "type": "string",
+      "defaultValue": "https://raw.githubusercontent.com/shosho-san/ResourceTemplates/master/IaaSDeployforDemo/IaaSDeployforDemo",
+      "metadata": {
+        "description": "Storage Account/GitHub base uri for required files"
+      }
+    }
+  },
+  "variables": {
+    "StorageAccount": {
+      "Name": "[concat(parameters('envPrefix'),uniqueString(resourceGroup().id))]",
+      "Type": "Standard_LRS",
+      "Location": "[parameters('envLocation')]",
+      "EndPoint": "blob.core.windows.net"
+    },
+    "VirtualNetwork": {
+      "Name": "[concat(parameters('envPrefix'), '_vnet')]",
+      "Location": "[parameters('envLocation')]",
+      "Prefix": "192.168.0.0/16",
+      "Subnet1Name": "Subnet-adds",
+      "Subnet1Prefix": "192.168.1.0/24",
+      "Subnet2Name": "Subnet-adfs",
+      "Subnet2Prefix": "192.168.1.0/24",
+      "Subnet3Name": "Subnet-wap",
+      "Subnet3Prefix": "192.168.1.0/24"
+
+
+    },
+    "StdVmImageReference": {
+      "publisher": "MicrosoftWindowsServer",
+      "offer": "WindowsServer",
+      "sku": "2012-R2-Datacenter",
+      "version": "latest"
+    },
+    "domainName": "[concat(parameters('envPrefix'), '.local')]",
+    "WAPPublicDNS": "[concat(parameters('envPrefix'), 'fed')]",
+    "WebPublicDNS": "[concat(parameters('envPrefix'), 'api')]",
+    "vmConfiguration": {
+      "dc": {
+        "name": "DC",
+        "size": "Standard_A1"
+      },
+      "adfs": {
+        "name": "ADFS",
+        "size": "Standard_A1"
+      },
+      "wap": {
+        "name": "WAP",
+        "size": "Standard_A1"
+      }
+    }
+  },
+  "resources": [
+    {
+      "name": "NetworkAndStorage",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [ ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('artifactsLocation'), '/Templates/NestedDeploy/NetworkAndStorage.json')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "VirtualNetwork": {
+            "value": "[variables('VirtualNetwork')]"
+          },
+          "StorageAccount": {
+            "value": "[variables('StorageAccount')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "DomainController",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "NetworkAndStorage"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('artifactsLocation'), '/Templates/NestedDeploy/DomainController.json')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "VirtualNetwork": {
+            "value": "[variables('VirtualNetwork')]"
+          },
+          "VirtualNetworkId": {
+            "value": "[reference('NetworkAndStorage').outputs.VirtualNetworkId.value]"
+          },
+          "StorageAccount": {
+            "value": "[variables('StorageAccount')]"
+          },
+          "StorageAccountId": {
+            "value": "[reference('NetworkAndStorage').outputs.StorageAccountId.value]"
+          },
+          "AdminUsername": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "adminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "envPrefix": {
+            "value": "[parameters('envPrefix')]"
+          },
+          "vmImageReference": {
+            "value": "[variables('StdVmImageReference')]"
+          },
+          "artifactsLocation": {
+            "value": "[parameters('artifactsLocation')]"
+          },
+          "vmName": {
+            "value": "[variables('vmConfiguration').dc.name]"
+          },
+          "vmSize": {
+            "value": "[variables('vmConfiguration').dc.size]"
+          }
+        }
+      }
+    }
+  ],
     "outputs": {
     }
 }

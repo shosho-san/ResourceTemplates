@@ -43,7 +43,7 @@
   },
   "variables": {
     "StorageAccount": {
-      "Name": "[concat(parameters('envPrefix'),uniqueString(resourceGroup().id))]",
+      "Name": "[concat('store',uniqueString(resourceGroup().id))]",
       "Type": "Standard_LRS",
       "Location": "[parameters('envLocation')]",
       "EndPoint": "blob.core.windows.net"

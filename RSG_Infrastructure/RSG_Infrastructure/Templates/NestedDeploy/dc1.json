@@ -2,17 +2,6 @@
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
   "parameters": {
-    "storeType": {
-      "type": "string",
-      "defaultValue": "Standard_LRS",
-      "allowedValues": [
-        "Standard_LRS",
-        "Standard_ZRS",
-        "Standard_GRS",
-        "Standard_RAGRS",
-        "Premium_LRS"
-      ]
-    },
     "adds1Name": {
       "type": "string",
       "minLength": 1,
@@ -43,9 +32,6 @@
   },
   "variables": {
     "storeName": "[concat('store', uniqueString(resourceGroup().id))]",
-    "virtualnetworkPrefix": "10.0.0.0/16",
-    "virtualnetworkSubnet1Name": "Subnet-adds",
-    "virtualnetworkSubnet1Prefix": "10.0.0.0/24",
     "adds1ImagePublisher": "MicrosoftWindowsServer",
     "adds1ImageOffer": "WindowsServer",
     "adds1OSDiskName": "adds1OSDisk",
@@ -57,44 +43,6 @@
     "adds1NICIPAddress": "10.0.0.4"
   },
     "resources": [
-        {
-            "name": "[variables('storeName')]",
-            "type": "Microsoft.Storage/storageAccounts",
-            "location": "[resourceGroup().location]",
-            "apiVersion": "2015-06-15",
-            "dependsOn": [ ],
-            "tags": {
-                "displayName": "store"
-            },
-            "properties": {
-                "accountType": "[parameters('storeType')]"
-            }
-        },
-        {
-            "name": "virtualnetwork",
-            "type": "Microsoft.Network/virtualNetworks",
-            "location": "[resourceGroup().location]",
-            "apiVersion": "2015-06-15",
-            "dependsOn": [ ],
-            "tags": {
-                "displayName": "virtualnetwork"
-            },
-            "properties": {
-                "addressSpace": {
-                    "addressPrefixes": [
-                        "[variables('virtualnetworkPrefix')]"
-                    ]
-                },
-                "subnets": [
-                    {
-                        "name": "[variables('virtualnetworkSubnet1Name')]",
-                        "properties": {
-                            "addressPrefix": "[variables('virtualnetworkSubnet1Prefix')]"
-                        }
-                    }
-                ]
-            }
-        },
         {
             "name": "[variables('adds1NicName')]",
             "type": "Microsoft.Network/networkInterfaces",

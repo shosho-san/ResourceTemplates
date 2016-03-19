@@ -22,8 +22,8 @@
     },
     "artifactsLocation": {
       "type": "string",
-      "defaultValue": "https://raw.githubusercontent.com/shosho-san/ResourceTemplates/RSG_Infrastructure/RSG_Infrastructure",
-        "metadata": {
+      "defaultValue": "https://raw.githubusercontent.com/shosho-san/ResourceTemplates/master/RSG_Infrastructure/RSG_Infrastructure",
+      "metadata": {
         "description": "Storage Account/GitHub base uri for required files"
       }
     }
@@ -40,7 +40,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(parameters('artifactsLocation'), '/Templates/NestedDeploy/virtualNetwork.json')]",
+          "uri": "[concat(parameters('artifactsLocation'), '/Templates/NestedDeploy/virtualnetwork.json')]",
           "contentVersion": "1.0.0.0"
         }
       }

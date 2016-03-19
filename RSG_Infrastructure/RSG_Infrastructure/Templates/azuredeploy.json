@@ -39,7 +39,7 @@
       "dependsOn": [ ],
       "properties": {
         "mode": "Incremental",
-        "templateLink": {
+        "templateLink": { 
           "uri": "[concat(parameters('artifactsLocation'), '/Templates/NestedDeploy/virtualnetwork.json')]",
           "contentVersion": "1.0.0.0"
         }

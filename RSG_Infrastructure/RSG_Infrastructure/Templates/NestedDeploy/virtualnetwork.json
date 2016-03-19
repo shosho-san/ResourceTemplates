@@ -8,7 +8,10 @@
     "virtualnetworkSubnet1Name": "Subnet-adds",
     "virtualnetworkSubnet1Prefix": "10.0.0.0/24",
     "virtualnetworkSubnet2Name": "Subnet-adfs",
-    "virtualnetworkSubnet2Prefix": "10.0.1.0/24"  },
+    "virtualnetworkSubnet2Prefix": "10.0.1.0/24",
+    "virtualnetworkSubnet3Name": "Subnet-wap",
+    "virtualnetworkSubnet23refix": "10.0.2.0/24"
+  },
     "resources": [
         {
             "name": "virtualnetwork",
@@ -36,6 +39,12 @@
                   "name": "[variables('virtualnetworkSubnet2Name')]",
                   "properties": {
                     "addressPrefix": "[variables('virtualnetworkSubnet2Prefix')]"
+                  }
+                },
+                {
+                  "name": "[variables('virtualnetworkSubnet3Name')]",
+                  "properties": {
+                    "addressPrefix": "[variables('virtualnetworkSubnet3Prefix')]"
                   }
                 }
               ]

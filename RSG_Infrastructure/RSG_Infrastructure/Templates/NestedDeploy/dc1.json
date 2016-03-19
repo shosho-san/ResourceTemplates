@@ -54,7 +54,7 @@
     "adds1SubnetRef": "[concat(variables('adds1VnetID'), '/subnets/', variables('virtualnetworkSubnet1Name'))]",
     "adds1StorageAccountContainerName": "vhds",
     "adds1NicName": "[concat(parameters('adds1Name'), 'NetworkInterface')]",
-    "adds1NICIPAddress": "10.0.0.0.4"
+    "adds1NICIPAddress": "10.0.0.4"
   },
     "resources": [
         {

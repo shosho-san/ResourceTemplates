@@ -1,0 +1,172 @@
+﻿{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storeType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_ZRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Premium_LRS"
+      ]
+    },
+    "adds1Name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "adds1AdminUserName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "adds1AdminPassword": {
+      "type": "securestring"
+    },
+    "adds1WindowsOSVersion": {
+      "type": "string",
+      "defaultValue": "2012-R2-Datacenter",
+      "allowedValues": [
+        "2008-R2-SP1",
+        "2012-Datacenter",
+        "2012-R2-Datacenter",
+        "Windows-Server-Technical-Preview"
+      ]
+    
+
+
+    }
+
+  },
+  "variables": {
+    "storeName": "[concat('store', uniqueString(resourceGroup().id))]",
+    "virtualnetworkPrefix": "10.0.0.0/16",
+    "virtualnetworkSubnet1Name": "Subnet-adds",
+    "virtualnetworkSubnet1Prefix": "10.0.0.0/24",
+    "adds1ImagePublisher": "MicrosoftWindowsServer",
+    "adds1ImageOffer": "WindowsServer",
+    "adds1OSDiskName": "adds1OSDisk",
+    "adds1VmSize": "Standard_D1",
+    "adds1VnetID": "[resourceId('Microsoft.Network/virtualNetworks', 'virtualnetwork')]",
+    "adds1SubnetRef": "[concat(variables('adds1VnetID'), '/subnets/', variables('virtualnetworkSubnet1Name'))]",
+    "adds1StorageAccountContainerName": "vhds",
+    "adds1NicName": "[concat(parameters('adds1Name'), 'NetworkInterface')]",
+    "adds1NICIPAddress": "10.0.0.0.4"
+  },
+    "resources": [
+        {
+            "name": "[variables('storeName')]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-06-15",
+            "dependsOn": [ ],
+            "tags": {
+                "displayName": "store"
+            },
+            "properties": {
+                "accountType": "[parameters('storeType')]"
+            }
+        },
+        {
+            "name": "virtualnetwork",
+            "type": "Microsoft.Network/virtualNetworks",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-06-15",
+            "dependsOn": [ ],
+            "tags": {
+                "displayName": "virtualnetwork"
+            },
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[variables('virtualnetworkPrefix')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[variables('virtualnetworkSubnet1Name')]",
+                        "properties": {
+                            "addressPrefix": "[variables('virtualnetworkSubnet1Prefix')]"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[variables('adds1NicName')]",
+            "type": "Microsoft.Network/networkInterfaces",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-06-15",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', 'virtualnetwork')]"
+            ],
+            "tags": {
+                "displayName": "adds1Nic"
+            },
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                      "properties": {
+                        "privateIPAllocationMethod": "Static",
+                        "privateIPAddress": "[variables('adds1NICIPAddress')]",
+                        "subnet": {
+                          "id": "[variables('adds1SubnetRef')]"
+                        }
+                      }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[parameters('adds1Name')]",
+            "type": "Microsoft.Compute/virtualMachines",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-06-15",
+            "dependsOn": [
+                "[concat('Microsoft.Storage/storageAccounts/', variables('storeName'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', variables('adds1NicName'))]"
+            ],
+            "tags": {
+                "displayName": "adds1"
+            },
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[variables('adds1VmSize')]"
+                },
+                "osProfile": {
+                    "computerName": "[parameters('adds1Name')]",
+                    "adminUsername": "[parameters('adds1AdminUsername')]",
+                    "adminPassword": "[parameters('adds1AdminPassword')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "[variables('adds1ImagePublisher')]",
+                        "offer": "[variables('adds1ImageOffer')]",
+                        "sku": "[parameters('adds1WindowsOSVersion')]",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "adds1OSDisk",
+                        "vhd": {
+                            "uri": "[concat('http://', variables('storeName'), '.blob.core.windows.net/', variables('adds1StorageAccountContainerName'), '/', variables('adds1OSDiskName'), '.vhd')]"
+                        },
+                        "caching": "ReadWrite",
+                        "createOption": "FromImage"
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('adds1NicName'))]"
+                        }
+                    ]
+                }
+            }
+        }
+        
+    ],
+    "outputs": {
+    }
+}

@@ -26,6 +26,7 @@
   <!-- vertag<:>end -->
   <ItemGroup>
     <Folder Include="Scripts\" />
+    <Folder Include="Templates\NestedDeploy\" />
     <Folder Include="Tools\" />
   </ItemGroup>
   <ItemGroup>
@@ -33,11 +34,6 @@
       <Visible>False</Visible>
     </None>
     <Content Include="Scripts\Deploy-AzureResourceGroup.ps1" />
-    <None Include="Templates\azuredeploy.json" />
-    <None Include="Templates\azuredeploy.parameters.json" />
-    <None Include="Templates\NestedDeploy\dc1.json" />
-    <None Include="Templates\NestedDeploy\Storage.json" />
-    <None Include="Templates\NestedDeploy\virtualnetwork.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Tools\AzCopy.exe" />

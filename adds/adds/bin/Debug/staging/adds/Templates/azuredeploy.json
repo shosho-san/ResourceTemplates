@@ -182,6 +182,20 @@
           }
         }
       }
+    },
+    {
+      "name": "DomainControllerDSC",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [ ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('artifactsLocation'), '/Templates/NestedDeploy/DomainControllerDSC.json')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": { }
+      }
     }
   ],
     "outputs": {
